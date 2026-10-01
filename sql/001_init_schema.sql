@@ -2,6 +2,8 @@
 -- Anwenden mit: psql $DATABASE_URL -f sql/001_init_schema.sql
 -- oder über das Hilfsskript: node scripts/migrate.js
 
+-- ! NICHT MEHR ÄNDERN ! --
+
 CREATE TABLE IF NOT EXISTS Nutzer (
   id SERIAL PRIMARY KEY,
   benutzername TEXT NOT NULL UNIQUE,
