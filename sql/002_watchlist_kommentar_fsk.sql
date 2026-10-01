@@ -1,6 +1,8 @@
 -- CineRate Schema-Erweiterung: Watchlist, Kommentare, FSK, Sternebewertung 1-5
 -- Mehrfach ausfuehrbar (idempotent), da migrate.js alle Dateien jedes Mal ausfuehrt.
 
+-- ! NICHT MEHR ÄNDERN ! --
+
 -- FSK-Freigabe am Film (PB-13), z. B. '0', '6', '12', '16', '18'
 ALTER TABLE Film ADD COLUMN IF NOT EXISTS fsk TEXT;
 
