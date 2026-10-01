@@ -1,0 +1,13 @@
+{
+  "name": "cinerate-db",
+  "version": "1.0.0",
+  "description": "CineRate - Datenbankschema und Migrationen (PostgreSQL)",
+  "scripts": {
+    "migrate": "node scripts/migrate.js"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.4",
+    "pg": "^8.13.1"
+  },
+  "license": "ISC"
+}
