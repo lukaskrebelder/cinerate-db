@@ -5,7 +5,15 @@ const fs = require("fs");
 const path = require("path");
 const { Pool } = require("pg");
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const connectionString = process.env.DATABASE_URL;
+const isLocal =
+  !connectionString || connectionString.includes("localhost") || connectionString.includes("127.0.0.1");
+
+const pool = new Pool({
+  connectionString,
+  // Heroku Postgres verlangt SSL, eine lokale Datenbank i. d. R. nicht.
+  ssl: isLocal ? false : { rejectUnauthorized: false },
+});
 
 async function run() {
   const sqlDir = path.join(__dirname, "..", "sql");
