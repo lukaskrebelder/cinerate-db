@@ -8,13 +8,14 @@ Die eigentliche Anwendungslogik liegt in [cinerate-backend](../cinerate-backend)
 
 ## Tabellen
 
-- `Nutzer` – registrierte Nutzer (Rolle: Nutzer, Moderator oder Admin)
+- `Nutzer` – registrierte Nutzer mit Vor- und Nachname (`vorname`, `nachname`), E-Mail und Passwort-Hash (Rolle: Nutzer, Moderator oder Admin). Der Benutzername (`benutzername`) ist optional.
 - `Film` – über TMDB importierte und lokal gecachte Filme, inkl. FSK-Freigabe (`fsk`)
 - `Genre` – Filmgenres
 - `Film_Genre` – n:m-Beziehung zwischen Film und Genre
 - `Bewertung` – Sternebewertung eines Nutzers zu einem Film (1 bis 5 Sterne, 1 Bewertung pro Nutzer/Film)
 - `Watchlist` – Filme, die ein Nutzer merkt (jeder Film pro Nutzer höchstens einmal)
 - `Kommentar` – Kommentare von Nutzern zu Filmen (mehrere pro Nutzer und Film möglich)
+- `Sitzung` – eine Anmeldung pro Eintrag: Token (nur als Hash gespeichert), Nutzer, Erstellzeit und Ablaufzeit (24 Stunden). Wird beim Löschen des Nutzers mitgelöscht.
 
 ## Migrationen
 
@@ -24,12 +25,13 @@ Die Dateien in `sql/` werden der Reihe nach ausgeführt:
 | --- | --- |
 | `001_init_schema.sql` | Grundschema: Nutzer, Film, Genre, Film_Genre, Bewertung |
 | `002_watchlist_kommentar_fsk.sql` | Watchlist, Kommentar, Spalte `fsk`, Bewertung auf 1–5 Sterne |
+| `003_auth.sql` | Registrierung und Anmeldung: `vorname` und `nachname` bei Nutzer, Benutzername optional, Tabelle `Sitzung` |
 
 Regeln:
 
 - Bereits eingecheckte Migrationsdateien werden **nicht mehr geändert**.
   Schemaänderungen kommen immer in eine neue Datei mit der nächsten Nummer,
-  z. B. `003_beschreibung.sql`.
+  z. B. `004_beschreibung.sql`.
 - `migrate.js` führt bei jedem Lauf **alle** Dateien erneut aus und merkt sich
   nicht, was schon angewendet wurde. Neue Migrationen müssen daher mehrfach
   ausführbar sein (`IF NOT EXISTS`, `DROP ... IF EXISTS` usw.).
